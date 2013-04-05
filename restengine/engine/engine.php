@@ -54,7 +54,7 @@ class Engine
             $this->_url['route'] = $this->_parse_url_params();
             try
             {
-                $this->_set_post_params();
+                $this->_set_params();
             }
             catch ( Exception\APIException $e )
             {
@@ -93,19 +93,21 @@ class Engine
      */
     public function redirect ( $code ) 
     {
-        if ( $_SERVER['REQUEST_METHOD'] != 'HEAD' )
-            header( 'content-type: application/json; charset=utf-8' );
-
+        // Available codes
         $codes[403] = array( 'Forbidden', 'You can not access the resource.' );
         $codes[404] = array( 'Not Found', 'Resource not found.' );
         $codes[410] = array( 'Gone',      'The resource does not exist in this server any longer.' );
 
+        // Default redirection code is 404
         if ( !in_array( $code, $codes ) OR !is_numeric( $code ) )
             $code = 404;
 
+        // Set headers (including HTML error) and return json with the specified error
+        if ( $_SERVER['REQUEST_METHOD'] != 'HEAD' )
+            header( 'content-type: application/json; charset=utf-8' );
         header( $_SERVER['SERVER_PROTOCOL'].' '.$code.' '.$codes[$code][0] );
         echo json_encode( array( 'success'=>false, 'message'=>$codes[$code][1] ) );
-        exit();
+        exit(); // for stopping the script
     }
 
     /**
@@ -141,12 +143,12 @@ class Engine
      *
      * @return void
      * @throws APIException If a duplicated entry
+     * @todo merge $_POST and $_GET, and and support for PUT
      */
-    private function _set_post_params ()
+    private function _set_params ()
     {
         // Set PUT, POST and GET variables into $this->_params
-        // Dont use $_REQUEST because we do not want to use the cookies too
-        $_POST['asd'] = 'asd';
+        // Dont use $_REQUEST because we do not want to use the cookies too 
         foreach ( $_POST as $key=>$val )
         {
             if ( !isset( $this->_params[$key] ) )

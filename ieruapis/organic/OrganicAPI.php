@@ -57,7 +57,7 @@ class OrganicAPI
     public function & get_search () 
     {
         # Request translation and resources for the searched word
-        $url = SERVER_ANALYTICS_URL.'/analyticsapi/search';
+        $url = $this->_config->get_analytics_server_ip().'/api/analytics/search';
         $data = $this->_curl_request( $url, $this->_params );
         $resources = json_decode( $data, true );
 

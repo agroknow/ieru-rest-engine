@@ -27,9 +27,7 @@ class Config
 		{
 			$this->_routes['GET'][]  = array( '/resources',     'controller'=>'OrganicAPI#fetch_resources' );
 			$this->_routes['GET'][]  = array( '/resources/:id', 'controller'=>'OrganicAPI#fetch_resource' );
-
 			$this->_routes['GET'][]  = array( '/search',        'controller'=>'OrganicAPI#get_search' );
-
 			$this->_routes['GET'][]  = array( '/login',         'controller'=>'OrganicAPI#login' );
 			$this->_routes['GET'][]  = array( '/logout',        'controller'=>'OrganicAPI#logout' );
 			$this->_routes['POST'][] = array( '/register',      'controller'=>'OrganicAPI#register' );
@@ -269,4 +267,14 @@ class Config
 			'password'=>''
 		);
 	}
+
+      /**
+       * Returns the IP of the server of the Analytics API
+       *
+       * @return string
+       */
+      public function get_analytics_server_ip ()
+      {
+            return 'http://lingua.dev';
+      }
 }
