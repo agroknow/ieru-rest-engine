@@ -39,7 +39,7 @@ class AnalyticsAPI
         // Check the service intended to be used for translation purposes
         try
         {
-            // Check that the required parameters are set
+            // Check that the required parameters are set according to the API document
             if ( !isset( $this->_params['offset'] ) OR !isset( $this->_params['limit'] ) )
                 throw new APIException( 'Check the API documentation for the required parameters.' );
 
