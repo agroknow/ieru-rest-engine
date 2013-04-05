@@ -45,9 +45,9 @@ class MicrosoftService implements MultilingualTranslationAdapter
         try 
         {
             // Client ID of the application.
-            $clientID     = 'CLIENT_ID';
+            $clientID     = 'ce294d5d-605a-4841-a8e3-b74971689e62';
             // Client Secret key of the application.
-            $clientSecret = 'CLIENT_SECRET';
+            $clientSecret = 'PjOAWsvyv7UFVwow98DBzK+2Y+n7Ym0czxNylk+uV3o=';
             // OAuth Url.
             $authUrl      = 'https://datamarket.accesscontrol.windows.net/v2/OAuth2-13/';
             // Application Scope Url
