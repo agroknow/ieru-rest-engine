@@ -33,7 +33,6 @@ $loader->register();
 $loader->setUseIncludePath(true);
 
 // Start ieru restengine, with api URI identifier and API URI namespace
-require( 'ieru/restengine/index.php' );
 $api = new \Ieru\Restengine\Engine\Engine( 'api', 'Ieru\Ieruapis' );
 $api->start();
 ```
