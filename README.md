@@ -7,8 +7,6 @@ This example is using Laravel as the main framework for a site, but it is not us
 
 In the /public directory, there is an .htacces file that makes the requests to an URL like //localhost/api/ avoid the Laravel framework, and use instead the REST API engine.
 
-Note: you can include ieruapis and restengine folders inside a vendor folder called "ieru" (according to PSR-0 standard).
-
 ```
 <IfModule mod_rewrite.c>
     
