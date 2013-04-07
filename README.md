@@ -27,8 +27,7 @@ require_once( 'vendor/Symfony/Component/ClassLoader.php' );
 $loader = new \Symfony\Component\ClassLoader\ClassLoader();
 
 // register classes with namespaces
-$loader->addPrefix( 'Ieru\Ieruapis\Analytics', __DIR__.'/ieru/ieruapis/analytics' );
-$loader->addPrefix( 'Ieru\Ieruapis\Organic',   __DIR__.'/ieru/ieruapis/organic' );
+$loader->addPrefix( 'Ieru\\', __DIR__.'/ieru' );
 $loader->register();
 $loader->setUseIncludePath(true);
 
