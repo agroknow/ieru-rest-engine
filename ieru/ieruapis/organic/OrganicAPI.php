@@ -16,7 +16,9 @@
  *              3) Refactor the request to the database
  */
 
-namespace Ieru\Ieruapis\Organic; use \Ieru\Restengine\Engine\Exception\APIException as APIException;
+namespace Ieru\Ieruapis\Organic; 
+
+use \Ieru\Restengine\Engine\Exception\APIException;
 
 class OrganicAPI
 {
@@ -382,7 +384,7 @@ class OrganicAPI
         # Query the database with the username and password given by the user
         $stmt = $this->_oauthdb->prepare( 'SELECT user_id, user_username, user_password FROM users WHERE user_username = ? AND user_password = ? LIMIT 1' );
         $stmt->execute( array( $this->_params['username'], $this->_params['password'] ) );
-        if ( !$user = $stmt->fetch( PDO::FETCH_ASSOC ) )
+        if ( !$user = $stmt->fetch( \PDO::FETCH_ASSOC ) )
             return array( 'success'=>false, 'message'=>'Wrong username or password.' );
 
         # Try to retrieve token for IP and active session, creating a new token if none
@@ -430,7 +432,8 @@ class OrganicAPI
     {
         try 
         {
-            $this->_oauthdb = new \PDO( 'mysql:host='.DB_OAUTH_HOST.';dbname='.DB_OAUTH_DATABASE, DB_OAUTH_USERNAME, DB_OAUTH_PASSWORD );
+            $db = $this->_config->get_db_oauth_info();
+            $this->_oauthdb = new \PDO( 'mysql:host='.$db['host'].';dbname='.$db['database'], $db['username'], $db['password'] );
         } 
         catch ( \Exception $e ) 
         {

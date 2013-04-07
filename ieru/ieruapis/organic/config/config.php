@@ -269,6 +269,21 @@ class Config
 	}
 
       /**
+       * Get the data for connecting with the OAUTH database
+       *
+       * @return array The data needed for connecting with the database
+       */
+      public function get_db_oauth_info ()
+      {
+            return array( 
+                  'host'=>'localhost',
+                  'database'=>'ieru_organic_lingua_oauth',
+                  'username'=>'root',
+                  'password'=>''
+            );
+      }
+
+      /**
        * Returns the IP of the server of the Analytics API
        *
        * @return string
