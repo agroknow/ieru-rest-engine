@@ -199,7 +199,7 @@ class AnalyticsAPI
             $result = array( 'success'=>false, 'message'=>'Error connecting with ratings service.' );
         }
 
-        if ( @$tags[0]->noitemfound || @$tags->norate )
+        if ( @$tags[0]->noitemfound OR @$tags->norate OR @$tags[0]->notag )
             $tags = array();
 
         $result = array( 'success'=>true, 'message'=>'Tags retrieved correctly', 'id'=>$this->_params['id'], 'data'=>$tags );
