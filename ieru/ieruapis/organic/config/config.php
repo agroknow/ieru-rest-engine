@@ -25,7 +25,7 @@ class Config
 	{
 		if ( !$this->_routes )
 		{
-			$this->_routes['GET'][]  = array( '/resources',     'controller'=>'OrganicAPI#fetch_resources' );
+			$this->_routes['POST'][] = array( '/resources',     'controller'=>'OrganicAPI#fetch_resources' );
 			$this->_routes['GET'][]  = array( '/resources/:id', 'controller'=>'OrganicAPI#fetch_resource' );
 			$this->_routes['GET'][]  = array( '/search',        'controller'=>'OrganicAPI#get_search' );
 			$this->_routes['GET'][]  = array( '/login',         'controller'=>'OrganicAPI#login' );

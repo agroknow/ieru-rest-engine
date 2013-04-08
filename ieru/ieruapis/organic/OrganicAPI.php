@@ -249,7 +249,10 @@ class OrganicAPI
                             GROUP BY string.language';
 
                     $stmt = $this->_db->prepare( $sql );
-                    $stmt->execute( array( $uri['resource'] ) );
+                    if ( isset( $uri['resource'] ) )
+                        $stmt->execute( array( $uri['resource'] ) );
+                    else
+                        $stmt->execute( array( $uri ) );
                     $fetches = $stmt->fetchAll( \PDO::FETCH_ASSOC );
                 }
                 # If an exception raises, return an empty array

@@ -45,7 +45,7 @@ class Engine
             $this->_api_name      = $uri[1];
             $this->_api_path      = $path_to_api;
             $this->_api_vendor    = $api_vendor;
-            $this->_api_namespace = $this->_api_vendor.'\\'.$this->_api_name;
+            $this->_api_namespace = $this->_api_vendor.'\\'.ucfirst( $this->_api_name );
 
             $config = $this->_api_namespace.'\Config\Config';
             $this->_config = new $config();
