@@ -140,6 +140,7 @@ class AnalyticsAPI
         }
 
         // Esto está haciendo que falle cuando hay varios filtros activos
+        // Store in the database the Analytics Service database
         //$stmt = $this->_db->prepare( 'INSERT INTO request SET '.implode( ',', $set ) );
         //$stmt->execute( $info );
     }
