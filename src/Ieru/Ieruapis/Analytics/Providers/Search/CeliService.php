@@ -68,10 +68,13 @@ class CeliService implements MultilingualSearchAdapter
 
         foreach ( $data->response->docs as $doc )
         {
-            if ( count( $doc->metaMetadata_identifier ) == 1 )
-                $response['data']['resources'][] = array( 'resource'=>$doc->metaMetadata_identifier[0] );
-            else
-                $response['data']['resources'][] = array( 'resource'=>$doc->metaMetadata_identifier[1] );
+            if ( isset( $doc->metaMetadata_identifier ) )
+            {
+                if ( count( $doc->metaMetadata_identifier ) == 1 )
+                    $response['data']['resources'][] = array( 'resource'=>$doc->metaMetadata_identifier[0] );
+                else
+                    $response['data']['resources'][] = array( 'resource'=>$doc->metaMetadata_identifier[1] );
+            }
         }
         $response['data']['facets'] = array();
         #print_r( $data );
