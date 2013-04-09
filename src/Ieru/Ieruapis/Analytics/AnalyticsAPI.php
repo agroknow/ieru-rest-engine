@@ -179,6 +179,58 @@ class AnalyticsAPI
     }
 
     /**
+     *
+     */
+    public function add_rating ()
+    {
+        $entry = str_replace( '_', '/', $this->_params['entry'] );
+        $entry = str_replace( '///', '://', $entry );
+
+        /** 
+         * @todo Check the usertoken or the user can not send a rating as it will not have an user_id
+         */
+
+        // Do the rating mambo
+        try
+        {
+            $clienteSOAP = new \SoapClient( 'http://62.217.124.135/cfmodule/server.php?wsdl' );
+
+            $func = 'Functionclass1.addRating';
+            //var_dump( $clienteSOAP->__getFunctions() );
+            // $addratedim ??? ni idea de por qué es así
+            for ( $i = 1; $i <= 6; $i++ )
+            {
+                $a[$i]['dimension'] = $i;
+                $a[$i]['value']     = $this->_params['rating'];
+            }
+
+            // Array with the parameters for the SOAP request
+            $p = array(
+                'apikey' => 'e827aa1ed7',
+                'user'=>1,
+                'resource'=>$entry,
+                'scheme' =>1,
+                'addratedim' => $a,
+                'overwrite' =>1
+            );
+
+            // Do the SOAP request
+            $rating = $clienteSOAP->$func( $p['apikey'], $p['user'], $p['resource'], $p['scheme'], $p['addratedim'], $p['overwrite'] );
+
+            // Check that $rating is not empty and that indeed has added the rating
+            // Throw Apiexception otherwise
+        }
+        catch ( \SoapFault $e )
+        {
+            $result = array( 'success'=>false, 'message'=>'Could not add rating to the resource.' );
+        }
+
+        $result = array( 'success'=>true, 'message'=>'Rating added' );
+
+        return $result;
+    }
+
+    /**
      * Fetches the rating associated with a resource
      *
      * @return array

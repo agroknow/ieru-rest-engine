@@ -31,6 +31,8 @@ class Config
 			$this->_routes['GET'][] = array( '/resources/:entry/ratings',         'controller'=>'AnalyticsAPI#get_history' );
 			$this->_routes['GET'][] = array( '/resources/:entry/ratings/reviews', 'controller'=>'AnalyticsAPI#get_review_history' );
 			$this->_routes['GET'][] = array( '/resources/:entry/tags',            'controller'=>'AnalyticsAPI#get_tags' );
+
+			$this->_routes['POST'][] = array( '/resources/:entry/rating',         'controller'=>'AnalyticsAPI#add_rating' );
 		}
 		return $this->_routes;
 	}

@@ -88,7 +88,7 @@ class OrganicAPI
             }
             else
             {
-                $results = array( 'success'=> false, 'errcode'=>20, 'message'=>'No results found.' );
+                $results = array( 'success'=> false, 'errcode'=>20, 'message'=>'No results found in the local database (Not Yet Imported).' );
             }
         }
 
