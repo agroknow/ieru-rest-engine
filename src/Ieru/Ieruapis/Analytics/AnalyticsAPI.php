@@ -9,7 +9,9 @@
  * @copyright   Copyright (c)2013
  */
 
-namespace Ieru\Ieruapis\Analytics; use \Ieru\Restengine\Engine\Exception\APIException as APIException;
+namespace Ieru\Ieruapis\Analytics; 
+
+use \Ieru\Restengine\Engine\Exception\APIException;
 
 /* Constants */
 define( 'NAV_SEARCH_IP', '91.121.175.31' );
@@ -92,7 +94,7 @@ class AnalyticsAPI
         try
         {
             $db_info = $this->_config->get_db_analytics_info();
-            $this->_db = $db = new \PDO( 'mysql:host='.$db_info['host'].';dbname='.$db_info['database'], $db_info['username'], $db_info['password'] );
+            $this->_db = new \PDO( 'mysql:host='.$db_info['host'].';dbname='.$db_info['database'], $db_info['username'], $db_info['password'] );
             $data['service_id']       = 1;
            @$data['request_language'] = $this->_params['lang'];
             $data['request_string']   = $this->_params['request_string'];
@@ -186,15 +188,34 @@ class AnalyticsAPI
         $entry = str_replace( '_', '/', $this->_params['entry'] );
         $entry = str_replace( '///', '://', $entry );
 
-        /** 
-         * @todo Check the usertoken or the user can not send a rating as it will not have an user_id
-         */
+        $this->_params['id'] = 'Not Yet Implemented.';
+
+        if ( $this->_params['usertoken'] == '' )
+            return array( 'success'=>false, 'message'=>'Only registered users are allowed to rate resources.' );
+
+        if ( !isset( $this->_params['rating'] ) OR $this->_params['rating'] == '' )
+            return array( 'success'=>false, 'message'=>'You have to set a rating.' );
+
+        # Try to connect database
+        $this->_connect_oauth();
+
+        # Query the database with the username and password given by the user
+        $sql = 'SELECT users.* 
+                FROM users
+                INNER JOIN tokens
+                    ON users.user_id = tokens.user_id
+                WHERE tokens.token_chars = ? AND tokens.token_active = 1
+                LIMIT 1';
+        $stmt = $this->_oauthdb->prepare( $sql );
+        $stmt->execute( array( $this->_params['usertoken'] ) );
+
+        if ( !$user = $stmt->fetch( \PDO::FETCH_ASSOC ) )
+            return array( 'success'=>false, 'message'=>'Wrong usertoken.' );
 
         // Do the rating mambo
         try
         {
             $clienteSOAP = new \SoapClient( 'http://62.217.124.135/cfmodule/server.php?wsdl' );
-
             $func = 'Functionclass1.addRating';
             //var_dump( $clienteSOAP->__getFunctions() );
             // $addratedim ??? ni idea de por qué es así
@@ -207,7 +228,7 @@ class AnalyticsAPI
             // Array with the parameters for the SOAP request
             $p = array(
                 'apikey' => 'e827aa1ed7',
-                'user'=>1,
+                'user'=>$user['user_id'],
                 'resource'=>$entry,
                 'scheme' =>1,
                 'addratedim' => $a,
@@ -219,13 +240,15 @@ class AnalyticsAPI
 
             // Check that $rating is not empty and that indeed has added the rating
             // Throw Apiexception otherwise
+
+            $values = $this->get_rating();
         }
         catch ( \SoapFault $e )
         {
             $result = array( 'success'=>false, 'message'=>'Could not add rating to the resource.' );
         }
 
-        $result = array( 'success'=>true, 'message'=>'Rating added' );
+        $result = array( 'success'=>true, 'message'=>'Rating added', 'data'=>$values['data'] );
 
         return $result;
     }
@@ -364,5 +387,24 @@ class AnalyticsAPI
 
         // Save the translation details to the database
         return array( 'success'=>true, 'message'=>'Translation done.', 'data'=>array( 'translation'=>$translation ) );
+    }
+
+    /**
+     * Connects with the OAuth database
+     *
+     * @return array is NOK | nothing if OK
+     */
+    private function _connect_oauth ()
+    {
+        try 
+        {
+            $db = $this->_config->get_db_oauth_info();
+            $this->_oauthdb = new \PDO( 'mysql:host='.$db['host'].';dbname='.$db['database'], $db['username'], $db['password'] );
+        } 
+        catch ( \Exception $e ) 
+        {
+            $e = new APIException( 'An error ocurred while connecting with the database.' );
+            $e->to_json();
+        }
     }
 }

@@ -81,7 +81,7 @@ class Config
 	{
 		return array( 
 			'host'=>'localhost',
-			'database'=>'analytics_service',
+			'database'=>'ieru_organic_lingua_oauth',
 			'username'=>'root',
 			'password'=>''
 		);
