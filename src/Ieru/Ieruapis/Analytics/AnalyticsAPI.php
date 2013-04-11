@@ -238,9 +238,7 @@ class AnalyticsAPI
             // Do the SOAP request
             $rating = $clienteSOAP->$func( $p['apikey'], $p['user'], $p['resource'], $p['scheme'], $p['addratedim'], $p['overwrite'] );
 
-            // Check that $rating is not empty and that indeed has added the rating
-            // Throw Apiexception otherwise
-
+            // Retrieve the ratings for the resource
             $values = $this->get_rating();
         }
         catch ( \SoapFault $e )
