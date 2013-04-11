@@ -6,7 +6,6 @@
  * @version     1.2 - 2013-04-04 | 1.1 - 2013-02-18 | 1.0 - 2012-10-15
  * 
  * @author      David Baños Expósito
- * @copyright   Copyright (c)2013
  */
 
 namespace Ieru\Ieruapis\Analytics; 

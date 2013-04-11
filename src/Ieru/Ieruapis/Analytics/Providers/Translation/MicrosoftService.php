@@ -6,7 +6,6 @@
  * @version     1.1 - 2013-04-04 | 1.0 - 2013-03-15
  * 
  * @author      David Baños Expósito
- * @copyright   Copyright (c)2013
  */
 
 namespace Ieru\Ieruapis\Analytics\Providers\Translation; use \Ieru\Restengine\Engine\Exception\APIException as APIException;

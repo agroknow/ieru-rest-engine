@@ -6,7 +6,6 @@
  * @version     1.0 - 2013-03-15
  * 
  * @author      David Baños Expósito
- * @copyright   Copyright (c)2013
  */
 
 namespace Ieru\Ieruapis\Analytics\Providers\Search;

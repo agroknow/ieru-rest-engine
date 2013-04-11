@@ -6,7 +6,6 @@
  * @version     1.1 - 2013-04-04 | 1.0 - 2012-06-08
  * 
  * @author      David Baños Expósito
- * @copyright   Copyright (c)2013
  */
 
 namespace Ieru\Restengine\Engine;

@@ -6,7 +6,6 @@
  * @version     1.1 - 2013-03-30 | 1.0 - 2012-10-17
  * 
  * @author      David Baños Expósito
- * @copyright   Copyright (c)2013
  */
 
 namespace Ieru\Restengine\Engine\Exception;
