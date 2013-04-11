@@ -181,7 +181,7 @@ class AnalyticsAPI
     }
 
     /**
-     *
+     * Rate a resource with GRNET service
      */
     public function add_rating ()
     {
@@ -196,16 +196,11 @@ class AnalyticsAPI
         if ( !isset( $this->_params['rating'] ) OR $this->_params['rating'] == '' )
             return array( 'success'=>false, 'message'=>'You have to set a rating.' );
 
-        # Try to connect database
+        // Try to connect database
         $this->_connect_oauth();
 
-        # Query the database with the username and password given by the user
-        $sql = 'SELECT users.* 
-                FROM users
-                INNER JOIN tokens
-                    ON users.user_id = tokens.user_id
-                WHERE tokens.token_chars = ? AND tokens.token_active = 1
-                LIMIT 1';
+        // Query the database with the username and password given by the user
+        $sql = 'SELECT users.* FROM users INNER JOIN tokens ON users.user_id = tokens.user_id WHERE tokens.token_chars = ? AND tokens.token_active = 1 LIMIT 1';
         $stmt = $this->_oauthdb->prepare( $sql );
         $stmt->execute( array( $this->_params['usertoken'] ) );
 
@@ -217,8 +212,6 @@ class AnalyticsAPI
         {
             $clienteSOAP = new \SoapClient( 'http://62.217.124.135/cfmodule/server.php?wsdl' );
             $func = 'Functionclass1.addRating';
-            //var_dump( $clienteSOAP->__getFunctions() );
-            // $addratedim ??? ni idea de por qué es así
             for ( $i = 1; $i <= 6; $i++ )
             {
                 $a[$i]['dimension'] = $i;
@@ -226,14 +219,7 @@ class AnalyticsAPI
             }
 
             // Array with the parameters for the SOAP request
-            $p = array(
-                'apikey' => 'e827aa1ed7',
-                'user'=>$user['user_id'],
-                'resource'=>$entry,
-                'scheme' =>1,
-                'addratedim' => $a,
-                'overwrite' =>1
-            );
+            $p = array( 'apikey' => 'e827aa1ed7', 'user'=>$user['user_id'], 'resource'=>$entry, 'scheme' =>1, 'addratedim' => $a, 'overwrite' =>1 );
 
             // Do the SOAP request
             $rating = $clienteSOAP->$func( $p['apikey'], $p['user'], $p['resource'], $p['scheme'], $p['addratedim'], $p['overwrite'] );
@@ -246,7 +232,7 @@ class AnalyticsAPI
             $result = array( 'success'=>false, 'message'=>'Could not add rating to the resource.' );
         }
 
-        $result = array( 'success'=>true, 'message'=>'Rating added', 'data'=>$values['data'] );
+        $result = array( 'success'=>true, 'message'=>'Rating added.', 'data'=>$values['data'] );
 
         return $result;
     }
