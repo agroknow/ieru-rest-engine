@@ -1,0 +1,17 @@
+{
+	"name": "IERU REST Engine",
+	"version": "1.0.0",
+	"license": "LPGL",
+    "authors": [
+        {
+            "name": "David Banos Exposito",
+            "email": "david.banos@uah.es",
+            "homepage": "http://www.ieru.org",
+            "role": "Developer"
+        }
+    ],
+	"autoload": {
+        "psr-0": {
+        }
+    }
+}
