@@ -3,7 +3,7 @@
  * API start point.
  *
  * @package     Organic API
- * @version     1.1 - 2013-04-04 | 1.0 - 2012-06-08
+ * @version     1.1 - 2013-04-04
  * 
  * @author      David Baños Expósito
  */

@@ -3,7 +3,7 @@
  * Throws exceptions in json format.
  *
  * @package     Organic API
- * @version     1.1 - 2013-03-30 | 1.0 - 2012-10-17
+ * @version     1.1 - 2013-03-30
  * 
  * @author      David Baños Expósito
  */
