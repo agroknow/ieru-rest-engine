@@ -1,9 +1,9 @@
 <?php
 /** 
- * Microsoft Translation adapter
+ * Xerox Translation adapter
  *
  * @package     Analytics API
- * @version     1.1 - 2013-04-04 | 1.0 - 2013-03-15
+ * @version     1.0 - 2013-04-18
  * 
  * @author      David Baños Expósito
  */
