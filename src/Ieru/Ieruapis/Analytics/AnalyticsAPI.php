@@ -142,8 +142,8 @@ class AnalyticsAPI
 
         // Esto está haciendo que falle cuando hay varios filtros activos
         // Store in the database the Analytics Service database
-        //$stmt = $this->_db->prepare( 'INSERT INTO request SET '.implode( ',', $set ) );
-        //$stmt->execute( $info );
+        $stmt = $this->_db->prepare( 'INSERT INTO request SET '.implode( ',', $set ) );
+        $stmt->execute( $info );
     }
 
     /**
@@ -341,7 +341,7 @@ class AnalyticsAPI
             if ( array_key_exists( 'service', $this->_params ) )
             {
                 // Check for a valid service
-                if ( in_array( $this->_params['service'], $GLOBALS['analyticsapi']['transl_services'] ) )
+                if ( in_array( $this->_params['service'], $this->_config->get_translation_services() ) )
                 {
                     $service = $this->_params['service'];
                 }

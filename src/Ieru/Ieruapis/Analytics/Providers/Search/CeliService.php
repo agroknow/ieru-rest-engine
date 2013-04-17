@@ -23,7 +23,7 @@ class CeliService implements MultilingualSearchAdapter
         $request_uri = 'http://research.celi.it:8080/OrganicLinguaSolr/select?indent=on&version=2.2'.
                        '&q='.urlencode( $data['text'] ).'&start='.$data['offset'].
                        '&rows='.$data['limit'].
-                       '&fl=metaMetadata_identifier%2Cscore&wt=json&explainOther=&hl.fl='.
+                       '&fl=general_identifier%2Cscore&wt=json&explainOther=&hl.fl='.
                        '&facet=true&facet.field=educationalContext&facet.field=language&facet.field=technicalFormat'.
                        '&facet.field=educationalRole&facet.field=ontologicalClassification'.
                        '&fq='.urlencode( $filters );
@@ -68,12 +68,12 @@ class CeliService implements MultilingualSearchAdapter
 
         foreach ( $data->response->docs as $doc )
         {
-            if ( isset( $doc->metaMetadata_identifier ) )
+            if ( isset( $doc->general_identifier ) )
             {
-                if ( count( $doc->metaMetadata_identifier ) == 1 )
-                    $response['data']['resources'][] = array( 'resource'=>$doc->metaMetadata_identifier[0] );
+                if ( count( $doc->general_identifier ) == 1 )
+                    $response['data']['resources'][] = array( 'resource'=>$doc->general_identifier[0] );
                 else
-                    $response['data']['resources'][] = array( 'resource'=>$doc->metaMetadata_identifier[1] );
+                    $response['data']['resources'][] = array( 'resource'=>$doc->general_identifier[0] );
             }
         }
         $response['data']['facets'] = array();

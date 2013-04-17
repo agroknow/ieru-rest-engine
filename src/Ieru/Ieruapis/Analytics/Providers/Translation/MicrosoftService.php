@@ -8,7 +8,9 @@
  * @author      David Baños Expósito
  */
 
-namespace Ieru\Ieruapis\Analytics\Providers\Translation; use \Ieru\Restengine\Engine\Exception\APIException as APIException;
+namespace Ieru\Ieruapis\Analytics\Providers\Translation; 
+
+use \Ieru\Restengine\Engine\Exception\APIException;
 
 class MicrosoftService implements MultilingualTranslationAdapter
 {
