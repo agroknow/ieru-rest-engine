@@ -154,7 +154,8 @@ class AnalyticsAPI
     public function get_rating ()
     {
         $entry = str_replace( '_', '/', $this->_params['entry'] );
-        $entry = str_replace( '///', '://', $entry );
+        $entry = str_replace( '___', '://', $entry );
+        $entry = str_replace( '@', '?', $entry );
 
         try
         {
@@ -185,7 +186,8 @@ class AnalyticsAPI
     public function add_rating ()
     {
         $entry = str_replace( '_', '/', $this->_params['entry'] );
-        $entry = str_replace( '///', '://', $entry );
+        $entry = str_replace( '___', '://', $entry );
+        $entry = str_replace( '@', '?', $entry );
 
         $this->_params['id'] = 'Not Yet Implemented.';
 
@@ -244,7 +246,8 @@ class AnalyticsAPI
     public function get_tags ()
     {
         $entry = str_replace( '_', '/', $this->_params['entry'] );
-        $entry = str_replace( '///', '://', $entry );
+        $entry = str_replace( '___', '://', $entry );
+        $entry = str_replace( '@', '?', $entry );
 
         try
         {
@@ -272,7 +275,8 @@ class AnalyticsAPI
     public function get_history ()
     {
         $entry = str_replace( '_', '/', $this->_params['entry'] );
-        $entry = str_replace( '///', '://', $entry );
+        $entry = str_replace( '___', '://', $entry );
+        $entry = str_replace( '@', '?', $entry );
 
         try
         {
@@ -301,7 +305,8 @@ class AnalyticsAPI
     public function get_review_history ()
     {
         $entry = str_replace( '_', '/', $this->_params['entry'] );
-        $entry = str_replace( '///', '://', $entry );
+        $entry = str_replace( '___', '://', $entry );
+        $entry = str_replace( '@', '?', $entry );
 
         try
         {
