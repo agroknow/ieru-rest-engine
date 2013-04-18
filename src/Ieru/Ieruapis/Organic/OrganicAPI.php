@@ -243,16 +243,13 @@ class OrganicAPI
                             INNER JOIN description ON identifier.FK_general=description.FK_general
                             INNER JOIN string as strings ON string.FK_general=strings.FK_general
                             INNER JOIN string as agerange ON string.FK_general=agerange.FK_typicalAgeRange 
-                            WHERE identifier.entry = ? AND string.FK_title is not NULL AND strings.FK_description is not NULL 
+                            WHERE identifier.entry IN ( ?, ? ) AND string.FK_title is not NULL AND strings.FK_description is not NULL 
                                   AND ( ( string.language = strings.language ) OR ( string.language = strings.language ) )
                             GROUP BY string.language';
 
                     $stmt = $this->_db->prepare( $sql );
 
-                    if ( is_array( $uri ) )
-                        $stmt->execute( array( $uri['resource'] ) );
-                    else
-                        $stmt->execute( array( $uri ) );
+                    $stmt->execute( array( $uri['resource'][0], $uri['resource'][1] ) );
                     
                     $fetches = $stmt->fetchAll( \PDO::FETCH_ASSOC );
                 }
