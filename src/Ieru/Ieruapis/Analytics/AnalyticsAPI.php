@@ -360,20 +360,30 @@ class AnalyticsAPI
 
             $class_name = 'Ieru\Ieruapis\Analytics\Providers\Translation\\'.ucfirst( $service ).'Service';
             $service = new $class_name( $this->_params );
+        
 
             // Try to connect to the translation service
             if ( $service->check_status() )
                 $service->connect();
             else
                 throw new APIException( $class_name.' unavailable.' );
+            
+            // Execute the translation
+            $translation = $service->request( $this->_params );
+
+            // In case there is no translation retrieved, use default
+            // translation service
+            if ( $translation == '' )
+            {
+                echo 'entra';
+                $this->_params['service'] = 'microsoft';
+                return $this->get_translation();
+            }
         }
         catch ( APIException $e )
         {
             $e->to_json();
         }
-                
-        // Execute the translation
-        $translation = $service->request( $this->_params );
 
         // Save the translation details to the database
         return array( 'success'=>true, 'message'=>'Translation done.', 'data'=>array( 'translation'=>$translation ) );
