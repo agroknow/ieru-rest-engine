@@ -332,12 +332,19 @@ class AnalyticsAPI
      */
     public function get_translation ()
     {
-        // Default translation service
-        $service = 'microsoft';
-
         // Check the service intended to be used for translation purposes
         try
         {
+            // Check that the request has a target language set
+            if ( !isset( $this->_params['to'] ) )
+                throw new APIException( 'Specify a target language for the translation.' );
+
+            // Default translation service, check language for that
+            $service = 'microsoft';
+            $def_langs = $this->_config->get_default_translation_services();
+            if ( array_key_exists( $this->_params['to'], $def_langs ) )
+                $service = $def_langs[$this->_params['to']];
+
             if ( array_key_exists( 'service', $this->_params ) )
             {
                 // Check for a valid service

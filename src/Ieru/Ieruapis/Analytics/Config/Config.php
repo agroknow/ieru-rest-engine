@@ -47,6 +47,16 @@ class Config
 	}
 
 	/**
+	 * Languages for which we have to use an specific translation service by default
+	 *
+	 * @return array
+	 */
+	public function get_default_translation_services ()
+	{
+		return array( 'es'=>'xerox', 'fr'=>'xerox', 'de'=>'xerox', 'it'=>'xerox' );
+	}
+
+	/**
 	 * Returns the routes allowed in this API
 	 *
 	 * @return array

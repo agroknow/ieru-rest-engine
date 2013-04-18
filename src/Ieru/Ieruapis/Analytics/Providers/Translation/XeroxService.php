@@ -92,7 +92,7 @@ class XeroxService implements MultilingualTranslationAdapter
         curl_setopt( $ch, CURLOPT_URL, $url );
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
         curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 2 );
-        curl_setopt( $ch, CURLOPT_TIMEOUT, 7 );
+        curl_setopt( $ch, CURLOPT_TIMEOUT, 40 );
         curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query( $post_data ) );
         if ( $headers )
         	curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
