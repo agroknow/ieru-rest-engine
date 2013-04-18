@@ -340,17 +340,17 @@ class AnalyticsAPI
                 throw new APIException( 'Specify a target language for the translation.' );
 
             // Default translation service, check language for that
-            $service = 'microsoft';
+            $def_service = 'microsoft';
             $def_langs = $this->_config->get_default_translation_services();
             if ( array_key_exists( $this->_params['to'], $def_langs ) )
-                $service = $def_langs[$this->_params['to']];
+                $def_service = $def_langs[$this->_params['to']];
 
             if ( array_key_exists( 'service', $this->_params ) )
             {
                 // Check for a valid service
                 if ( in_array( $this->_params['service'], $this->_config->get_translation_services() ) )
                 {
-                    $service = $this->_params['service'];
+                    $def_service = $this->_params['service'];
                 }
                 else
                 {
@@ -358,9 +358,8 @@ class AnalyticsAPI
                 }
             }
 
-            $class_name = 'Ieru\Ieruapis\Analytics\Providers\Translation\\'.ucfirst( $service ).'Service';
+            $class_name = 'Ieru\Ieruapis\Analytics\Providers\Translation\\'.ucfirst( $def_service ).'Service';
             $service = new $class_name( $this->_params );
-        
 
             // Try to connect to the translation service
             if ( $service->check_status() )
@@ -386,7 +385,7 @@ class AnalyticsAPI
         }
 
         // Save the translation details to the database
-        return array( 'success'=>true, 'message'=>'Translation done.', 'data'=>array( 'translation'=>$translation ) );
+        return array( 'success'=>true, 'message'=>'Translation done.', 'data'=>array( 'translation'=>$translation, 'service'=>$def_service ) );
     }
 
     /**
