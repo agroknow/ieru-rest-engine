@@ -70,10 +70,7 @@ class CeliService implements MultilingualSearchAdapter
         {
             if ( isset( $doc->general_identifier ) )
             {
-                if ( count( $doc->general_identifier ) == 1 )
-                    $response['data']['resources'][] = array( 'resource'=>$doc->general_identifier[0] );
-                else
-                    $response['data']['resources'][] = array( 'resource'=>$doc->general_identifier[0] );
+                $response['data']['resources'][] = array( 'resource'=>$doc->general_identifier );
             }
         }
         $response['data']['facets'] = array();
