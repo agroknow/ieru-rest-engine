@@ -244,7 +244,7 @@ class OrganicAPI
                             INNER JOIN string as strings ON string.FK_general=strings.FK_general
                             INNER JOIN string as agerange ON string.FK_general=agerange.FK_typicalAgeRange 
                             WHERE identifier.entry IN ( ?, ? ) AND string.FK_title is not NULL AND strings.FK_description is not NULL 
-                                  AND ( ( string.language = strings.language ) OR ( string.language = strings.language ) )
+                                  AND string.language = strings.language
                             GROUP BY string.language';
 
                     $stmt = $this->_db->prepare( $sql );
