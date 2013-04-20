@@ -25,7 +25,7 @@ class CeliService implements MultilingualSearchAdapter
                        '&rows='.$data['limit'].
                        '&fl=general_identifier%2Cscore&wt=json&explainOther=&hl.fl='.
                        '&facet=true&facet.field=educationalContext&facet.field=language&facet.field=technicalFormat'.
-                       '&facet.field=educationalRole&facet.field=ontologicalClassification'.
+                       '&facet.field=educationalRole'.
                        '&fq='.urlencode( $filters );
         $response = $this->_curl_get_data( $request_uri );
         return $response;
