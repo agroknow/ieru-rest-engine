@@ -119,17 +119,17 @@ class CeliService implements MultilingualSearchAdapter
         if ( isset( $data['filter'] ) )
         {
             $f = array();
-            foreach ( $data['filter'] as $filter )
+            foreach ( $data['filter'] as &$filter )
             {
                 if ( !empty( $filter ) )
                 {
                     if ( $filter['clave'] == 'language' )
                     {                       
-                        $f[] = $filter['clave'].':"'.array_search( $filter['valor'], $this->_lang ).'"';
+                        $f[] = $filter['clave'].':"'.array_search( trim( $filter['valor'] ), $this->_lang ).'"';
                     }
                     else
                     {
-                        $f[] = $filter['clave'].':"'.$filter['valor'].'"';
+                        $f[] = $filter['clave'].':"'.trim( $filter['valor'] ).'"';
                     }
                     
                 }

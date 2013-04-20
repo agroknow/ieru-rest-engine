@@ -84,9 +84,13 @@ class OrganicAPI
                 foreach ( $results['records'] as $key => &$value )
                     $value['position'] = @++$cont;
             }
+            elseif ( count( $resources['data']['resources'] ) <> count( $records ) )
+            {
+                $results = array( 'success'=> false, 'errcode'=>30, 'message'=>'No results found in the local database (Not Yet Imported).' );
+            }
             else
             {
-                $results = array( 'success'=> false, 'errcode'=>20, 'message'=>'No results found in the local database (Not Yet Imported).' );
+                $results = array( 'success'=> false, 'errcode'=>20, 'message'=>'No results found.' );
             }
         }
 
@@ -182,14 +186,14 @@ class OrganicAPI
             unset( $temp['title'], $temp['description'], $temp['keyword'] );
             $results = $temp;
             $results['success'] = true;
-            $results['message'] = 'Resource found.';
+            $results['message'] = 'API resource found.';
             $results['def_lang'] = ( isset( $this->_params['lang'] ) ) ? $this->_params['lang'] : 'en';
         }
         else
         {
             $results['success'] = false;
             $results['errcode'] = 10;
-            $results['message'] = 'Resource not found.';
+            $results['message'] = 'API resource not found.';
         } 
         return $results;
     }

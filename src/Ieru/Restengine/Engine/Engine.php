@@ -80,7 +80,7 @@ class Engine
 
         // Returns the result of the execution of class+method as a json
         if ( $_SERVER['REQUEST_METHOD'] != 'HEAD' )
-            header( 'content-type: application/json; charset=utf-8' );
+            header( 'Content-Type: application/json; charset=utf-8' );
         die( json_encode( $controller->$arr[1]() ) );
     }
 
