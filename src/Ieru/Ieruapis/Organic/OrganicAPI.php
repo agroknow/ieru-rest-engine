@@ -80,7 +80,7 @@ class OrganicAPI
                 $results['total']   = $resources['data']['total_records'];
                 $results['pages']   = ceil( $resources['data']['total_records'] / $this->_params['limit'] );
                 $results['records'] =& $records;
-                $this->_parse_facets( $resources, $results['filters'] );
+                $this->_parse_facets( $resources, $results['filters'], $this->_params['lang'] );
                 foreach ( $results['records'] as $key => &$value )
                     $value['position'] = @++$cont;
             }
@@ -204,18 +204,65 @@ class OrganicAPI
      * @param   String  $resources  The facets
      * @return  void
      */
-    private function _parse_facets ( &$resources, &$facets )
+    private function _parse_facets ( &$resources, &$facets, $lang )
     {
         $i = $j = 0;
 
+        // Translate the filters
+        $translations = include( 'filters.php' );
+
+        // Cycle through the facets
         foreach ( $resources['data']['facets'] as $key=>&$facet )
         {
+            // Cycle through the filters
             foreach ( $facet['filters'] as $k => $v )
             {
                 $facet_name = ( $facet['facet'] == 'language' ) ? $this->_lang[$v['filter']] : $v['filter'];
                 $facets[$i]['name'] = $facet['facet'];
-                $facets[$i]['results'][] = array( 'filter'=>$facet_name, 'value'=>$v['resources'] );
-            } $i++;
+
+                // Check if there is a tranlation for it in the translations array,
+                // or request a translation to the translation service (and then
+                // it will be stored in the array and sent to a file)
+                if ( array_key_exists( strtolower( $v['filter'] ), $translations )
+                     AND array_key_exists( $lang, $translations[strtolower( $v['filter'] )] )  )
+                {
+                    $tr = $translations[strtolower($v['filter'])][$lang];
+                }
+                else
+                {
+                    $url = 'http://lingua.dev/api/analytics/translate';
+                    $data = array( 'text'=>$facet_name, 'from'=>'en', 'to'=>$lang, 'service'=>'microsoft' );
+                    $tr = json_decode( $this->_curl_get_data( $url, $data ) );
+                    $tr = $tr->data->translation;
+                    $translations[strtolower($v['filter'])][$lang] = $tr;
+                }
+
+                // create filter entry
+                $facets[$i]['results'][] = array( 'filter'=>$facet_name, 'value'=>$v['resources'], 'translation'=>$tr );
+            }
+            $i++;
+        }
+
+        // Path to the file that stores the variables
+        define( 'ROOT', preg_replace( '/\/$/', '', $_SERVER['DOCUMENT_ROOT'] ) );
+        $file = 'filters.php';
+
+        // Write the file
+        if ( $fp = fopen( $file, 'w+' ) )
+        {
+            fwrite( $fp, "<?php\n" );
+            fwrite( $fp, "return array(\n" );
+            foreach ( $translations as $key=>$value )
+            {
+                fwrite( $fp, "\t'$key'=>array(\n" );
+                foreach ( $value as $k=>$v )
+                {
+                    fwrite( $fp, "\t\t'$k'=>'". addslashes($v)."',\n" );
+                }
+                fwrite( $fp, "\t),\n" );
+            }
+            fwrite( $fp, "\n);" );
+            fclose( $fp );
         }
     } 
 
@@ -373,6 +420,28 @@ class OrganicAPI
         $data = curl_exec( $ch );
         curl_close( $ch );
         return $data; 
+    }
+
+    /**
+     * Connects with the remote services. Sets a timeout for connecting the 
+     * service and a timeout for receiving the data.
+     *
+     * @param   String  $url        The url to retrieve, it must return a json.
+     * @return  String  json returned by remote service
+     */
+    private function & _curl_get_data ( $url, $data = null ) 
+    {
+        $ch = curl_init();
+        if ( $data )
+            curl_setopt( $ch, CURLOPT_URL, $url.'?'.http_build_query( $data ) );
+        else
+            curl_setopt( $ch, CURLOPT_URL, $url );
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+        curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 2 );
+        curl_setopt( $ch, CURLOPT_TIMEOUT, 7 );
+        $data = curl_exec( $ch );
+        curl_close( $ch );
+        return $data;
     }
 
     /**
