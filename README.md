@@ -3,13 +3,13 @@ IERU REST Engine
 
 About
 -----
-This is a simple REST Engine written in PHP, with a focus on being lightweight and fast. For making it work, it requires an API written also in PHP and copied in the folder of this engine, according to the PSR-0 standard (there is an example in the Github project [IERU Organic.Edunet APIs](https://github.com/ieru/ieru-oe-apis)). Further documentation for building an example API will be added in the future. It does not require any external libraries.
+This is a simple REST Engine written in PHP, with a focus on being fast and lightweight. It requires an API written also in PHP and placed in the same folder of this engine (it must be called Ieru), according to the PSR-0 standard (there is an example in the Github project [IERU Organic.Edunet APIs](https://github.com/ieru/ieru-oe-apis)). Further documentation for building an API example will be added in the future. It does not require any external libraries.
 
-Usage example
--------------
-This example is using Laravel as the main framework for a site, but it is not using Laravel at all.
+Usage
+-----
+This example uses Laravel as the main framework for a site, but the engine does not require Laravel at all.
 
-In the /public directory, there is an .htacces file that makes the requests to an URL like //localhost/api/ avoid the Laravel framework, and use instead the REST API engine.
+In the /public directory (the root folder for serving web pages), there is an .htacces file that filters all the server requests to Laravel except for those begining with 'api' like //localhost/api/analytics/translate. Those requests uses a file named api.php.
 
 ```
 <IfModule mod_rewrite.c>
