@@ -1,6 +1,10 @@
 IERU REST Engine
 ================
 
+About
+-----
+This is a simple REST Engine written in PHP, with a focus on being lightweight and fast. For making it work, it requires an API written also in PHP and copied in the folder of this engine, according to the PSR-0 standard (there is an example in the Github project [IERU Organic.Edunet APIs](https://github.com/ieru/ieru-oe-apis)). Further documentation for building an example API will be added in the future. It does not require any external libraries.
+
 Usage example
 -------------
 This example is using Laravel as the main framework for a site, but it is not using Laravel at all.
