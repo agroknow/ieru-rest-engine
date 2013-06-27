@@ -81,6 +81,10 @@ class Engine
         // Returns the result of the execution of class+method as a json
         if ( $_SERVER['REQUEST_METHOD'] != 'HEAD' )
             header( 'Content-Type: application/json; charset=utf-8' );
+
+        // Add cross domain support for javascript requests
+        header( 'Access-Control-Allow-Origin: http://'.XDOMAIN_ALLOWED_SERVER );
+
         die( json_encode( $controller->$arr[1]() ) );
     }
 
