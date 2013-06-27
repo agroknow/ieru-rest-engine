@@ -1,5 +1,5 @@
 {
-	"name": "IERU REST Engine",
+	"name": "ieru/ieru-rest-engine",
     "description": "PHP REST engine for various projects of the IERU research team",
     "homepage": "https://github.com/ieru/ieru-rest-engine",
 	"version": "1.0.0",
