@@ -83,7 +83,7 @@ class Engine
             header( 'Content-Type: application/json; charset=utf-8' );
 
         // Add cross domain support for javascript requests
-        header( 'Access-Control-Allow-Origin: http://'.XDOMAIN_ALLOWED_SERVER );
+        header( 'Access-Control-Allow-Origin: '.XDOMAIN_ALLOWED_SERVER );
 
         die( json_encode( $controller->$arr[1]() ) );
     }
@@ -109,6 +109,7 @@ class Engine
         if ( $_SERVER['REQUEST_METHOD'] != 'HEAD' )
             header( 'content-type: application/json; charset=utf-8' );
         header( $_SERVER['SERVER_PROTOCOL'].' '.$code.' '.$codes[$code][0] );
+        header( 'Access-Control-Allow-Origin: http://'.XDOMAIN_ALLOWED_SERVER );
         echo json_encode( array( 'success'=>false, 'message'=>$codes[$code][1] ) );
         exit(); // for stopping the script
     }
