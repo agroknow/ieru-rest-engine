@@ -31,7 +31,7 @@ class Engine
      * @param string $api_vendor    The namespace used for the IERU REST Engine API 
      *                              data is stored
      */
-    public function __construct ( $path_to_api, $api_vendor )
+    public function __construct ( $path_to_api, $api_vendor, $databases = null )
     {
         // Extract info from the URI
         $uri = explode( '?', $_SERVER['REQUEST_URI'] );
@@ -48,6 +48,8 @@ class Engine
 
             $config = $this->_api_namespace.'\Config\Config';
             $this->_config = new $config();
+
+            $this->_db = $databases;
 
             $this->_routes =& $this->_config->get_routes();
             $this->_url['route'] = $this->_parse_url_params();
@@ -76,7 +78,7 @@ class Engine
         // Gets the class and method to execute
         $arr = explode( '#', $this->_url['route']['controller'] );
         $name = $this->_api_namespace.'\\'.$arr[0];
-        $controller = new $name( $this->_params, $this->_config );
+        $controller = new $name( $this->_params, $this->_config, $this->_db );
 
         // Returns the result of the execution of class+method as a json
         if ( $_SERVER['REQUEST_METHOD'] != 'HEAD' )
