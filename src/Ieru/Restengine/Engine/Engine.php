@@ -46,15 +46,18 @@ class Engine
             $this->_api_vendor    = $api_vendor;
             $this->_api_namespace = $this->_api_vendor.'\\'.ucfirst( $this->_api_name );
 
-            $config = $this->_api_namespace.'\Config\Config';
-            $this->_config = new $config();
-
-            $this->_db = $databases;
-
-            $this->_routes =& $this->_config->get_routes();
-            $this->_url['route'] = $this->_parse_url_params();
             try
             {
+                $config = $this->_api_namespace.'\Config\Config';
+                if ( class_exists( $config ) )
+                    $this->_config = new $config();
+                else
+                    throw new Exception\APIException( 'Invalid API specified.' );
+
+                $this->_db = $databases;
+
+                $this->_routes =& $this->_config->get_routes();
+                $this->_url['route'] = $this->_parse_url_params();
                 $this->_set_params();
             }
             catch ( Exception\APIException $e )
