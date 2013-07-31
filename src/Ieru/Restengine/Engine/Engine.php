@@ -52,7 +52,7 @@ class Engine
                 if ( class_exists( $config ) )
                     $this->_config = new $config();
                 else
-                    throw new Exception\APIException( 'Invalid API specified.' );
+                    throw new Exception\APIException( 'Invalid API specified.', null, 404 );
 
                 $this->_db = $databases;
 

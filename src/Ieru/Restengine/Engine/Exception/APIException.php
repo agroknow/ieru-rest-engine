@@ -27,6 +27,9 @@ class APIException extends \Exception
         if ( $_SERVER['REQUEST_METHOD'] != 'HEAD' )
         	header( 'content-type: application/json; charset=utf-8' );
 
+        if ( $this->code )
+        	header( $_SERVER['SERVER_PROTOCOL'].' '.$this->code.' ' );
+
         // Json parameters, according to IERU API specification
 		$json['success'] = false;
 		$json['message'] = $this->message;
