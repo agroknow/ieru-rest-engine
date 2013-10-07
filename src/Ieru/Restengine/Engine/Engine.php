@@ -41,7 +41,7 @@ class Engine
         if ( $uri[0] == $path_to_api )
         {
             // Set parameters in this 
-            $this->_api_name      = $uri[1];
+            $this->_api_name      = @$uri[1];
             $this->_api_path      = $path_to_api;
             $this->_api_vendor    = $api_vendor;
             $this->_api_namespace = $this->_api_vendor.'\\'.ucfirst( $this->_api_name );
