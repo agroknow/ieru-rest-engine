@@ -3,7 +3,7 @@
  * API start point.
  *
  * @package     Organic API
- * @version     1.1 - 2013-04-04
+ * @version     1.2 - 2013-10-09 | 1.1 - 2013-04-04
  * 
  * @author      David Baños Expósito
  */
@@ -35,7 +35,7 @@ class Engine
     {
         // Extract info from the URI
         $uri = explode( '?', $_SERVER['REQUEST_URI'] );
-        $uri = explode( '/', substr( $uri[0], 1 ) );
+        $uri = explode( '/', str_replace( API_PATH, '', $uri[0] ) );
 
         // If the first part of the URI is not the api path
         if ( $uri[0] == $path_to_api )
@@ -134,7 +134,7 @@ class Engine
             foreach ( $this->_routes[$_SERVER['REQUEST_METHOD']] as $route )
             {
                 // If there is a match, stop looking for more
-                $uri = explode( '?', $_SERVER['REQUEST_URI'] );
+                $uri = explode( '?', str_replace( API_PATH, '/', $_SERVER['REQUEST_URI'] ) );
                 if ( preg_match( '@^'.preg_replace( '@:([^/]+)@si', '(?P<\1>[^/]+)', "/{$this->_api_path}/{$this->_api_name}".$route[0] ).'$@', $uri[0], $this->_params ) )
                 {
                     array_shift( $this->_params );
