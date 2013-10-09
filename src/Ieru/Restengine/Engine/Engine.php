@@ -31,43 +31,35 @@ class Engine
      * @param string $api_vendor    The namespace used for the IERU REST Engine API 
      *                              data is stored
      */
-    public function __construct ( $path_to_api, $api_vendor, $databases = null )
+    public function __construct ( $api_vendor, $databases = null )
     {
         // Extract info from the URI
         $uri = explode( '?', $_SERVER['REQUEST_URI'] );
         $uri = explode( '/', str_replace( API_PATH, '', $uri[0] ) );
 
-        // If the first part of the URI is not the api path
-        if ( $uri[0] == $path_to_api )
+        // Set parameters in this 
+        $this->_api_name      = @$uri[0];
+        $this->_api_path      = API_PATH;
+        $this->_api_vendor    = $api_vendor;
+        $this->_api_namespace = $this->_api_vendor.'\\'.ucfirst( $this->_api_name );
+
+        try
         {
-            // Set parameters in this 
-            $this->_api_name      = @$uri[1];
-            $this->_api_path      = $path_to_api;
-            $this->_api_vendor    = $api_vendor;
-            $this->_api_namespace = $this->_api_vendor.'\\'.ucfirst( $this->_api_name );
-
-            try
-            {
-                $config = $this->_api_namespace.'\Config\Config';
-                if ( class_exists( $config ) )
-                    $this->_config = new $config();
-                else
-                    throw new Exception\APIException( 'Invalid API specified.', null, 404 );
-
-                $this->_db = $databases;
-
-                $this->_routes =& $this->_config->get_routes();
-                $this->_url['route'] = $this->_parse_url_params();
-                $this->_set_params();
-            }
-            catch ( Exception\APIException $e )
-            {
-                $e->to_json();
-            }
-        }
+        $config = $this->_api_namespace.'\Config\Config';
+        if ( class_exists( $config ) )
+            $this->_config = new $config();
         else
+            throw new Exception\APIException( 'Invalid API specified.', null, 404 );
+
+        $this->_db = $databases;
+
+        $this->_routes =& $this->_config->get_routes();
+        $this->_url['route'] = $this->_parse_url_params();
+        $this->_set_params();
+        }
+        catch ( Exception\APIException $e )
         {
-            $this->redirect( 404 );
+        $e->to_json();
         }
     }
 
@@ -135,7 +127,7 @@ class Engine
             {
                 // If there is a match, stop looking for more
                 $uri = explode( '?', str_replace( API_PATH, '/', $_SERVER['REQUEST_URI'] ) );
-                if ( preg_match( '@^'.preg_replace( '@:([^/]+)@si', '(?P<\1>[^/]+)', "/{$this->_api_path}/{$this->_api_name}".$route[0] ).'$@', $uri[0], $this->_params ) )
+                if ( preg_match( '@^'.preg_replace( '@:([^/]+)@si', '(?P<\1>[^/]+)', "/{$this->_api_name}".$route[0] ).'$@', $uri[0], $this->_params ) )
                 {
                     array_shift( $this->_params );
                     return $route;
